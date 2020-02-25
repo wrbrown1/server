@@ -2,6 +2,8 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import java.util.ArrayList;
+import javax.swing.JFrame;
 
 public class Server {
     
@@ -9,6 +11,8 @@ public class Server {
     private ServerSocket serverSocket = null;
     private DataInputStream input = null;
     private DataOutputStream output = null;
+    private ArrayList<User> users;
+    private ArrayList<Patient> patients;
     
     public Server(int port) throws IOException{
         serverSocket = new ServerSocket(port);
@@ -32,6 +36,8 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException {
+        GUILogIn gui = new GUILogIn();
+        gui.setVisible(true);
         Server server = new Server(5000);
     }
     
