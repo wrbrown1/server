@@ -1,18 +1,18 @@
 package server;
 
 public class User {
-    private String userName, password, privilege;
+    private String username, password, privilege;
     private int ID;
     
     public User () {
-        userName = "";
+        username = "";
         password = "";
         privilege = "";
         ID = 0;
     }
     
     public User (String userName, String password, String privilege, int ID){
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.privilege = privilege;
         this.ID = ID;
@@ -21,15 +21,15 @@ public class User {
     /**
      * @return the userName
      */
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     /**
      * @param userName the userName to set
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     /**
