@@ -37,8 +37,8 @@ public class Server {
                 output.writeUTF("Enter username: ");//write
                 userInput = input.readUTF();//read
             }  
-            if(userInput.equals("logout")) steps = 0;
             switch (steps){
+                //case 0 checks if the username the user entered is actually in the database
                 case 0:
                     if (!SearchForUsername(userInput)){
                         System.out.print("Username not found");
@@ -48,6 +48,7 @@ public class Server {
                         steps++;
                     }                   
                     break;
+                //case 1 checks for the correct password and jumps to case 6 if it is incorrect, jumps to case 2 if it is
                 case 1:
                     output.writeUTF("Enter your password: ");//write
                     userInput = input.readUTF();//read
@@ -57,8 +58,7 @@ public class Server {
                         steps++;
                     }
                     break;
-
-
+                //case 2 checks the current user's privilege. If it is d/n it jumps to step 3. If it isn't it just displays the balance because the user is a patient
                 case 2:
                     if(currentUser.getPrivilege().equals("d") || currentUser.getPrivilege().equals("n")){
                         output.writeUTF("-Employee Access Menu-\nView Patient Database(v)\nAdd/Change Patient Data(c)\nLogout(o)");//write
@@ -68,6 +68,9 @@ public class Server {
                         ShowBalance();
                     }
                     break;
+                //case 3: if the input from case 2 is "v" display the database
+                //        if the input from case 2 is "o" it jumps to case 0;
+                //        if the input from case 2 is "c"(or anything else) it jumps to stwep 4
                 case 3:
                 switch (userInput) {
                     case "v":
@@ -82,7 +85,7 @@ public class Server {
                         break;
                 }
                     break;
-
+                //case 4 displays a menu that lets the user add a patient or edit an existing patient's info
                 case 4:
                     output.writeUTF("-Patient Database Editor Menu-\nAdd Patient(a)\nEdit Patient Data(e)\nBack(b)\nLogout(o)");//write
                     userInput = input.readUTF();//read
@@ -102,12 +105,15 @@ public class Server {
                     }
                     steps--;
                     break;
+                //case 6 checks for the correct password until the correct pw is entered or the user tries too many times
                 case 6:
                     output.writeUTF("Invalid password, try again: ");//write
                     userInput = input.readUTF();//read
                     if(!AuthenticatePassword(userInput)){
                         if(loginAttempts > 5) connected = false;
+                        loginAttempts++;
                     }else{
+                        loginAttempts = 0;
                         steps = 2;
                     }
                     break;
