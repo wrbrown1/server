@@ -2,6 +2,8 @@ package server;
 
 import java.net.*;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -19,6 +21,8 @@ public class Server {
     int steps = 0;
     int IDcount = 0;
     int loginAttempts;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+    LocalDateTime now = LocalDateTime.now();
     
     public Server(int port) throws IOException{
         serverSocket = new ServerSocket(port);
@@ -61,7 +65,7 @@ public class Server {
                 //case 2 checks the current user's privilege. If it is d/n it jumps to step 3. If it isn't it just displays the balance because the user is a patient
                 case 2:
                     if(currentUser.getPrivilege().equals("d") || currentUser.getPrivilege().equals("n")){
-                        output.writeUTF("-Employee Access Menu-\nView Patient Database(v)\nAdd/Change Patient Data(c)\nLogout(o)");//write
+                        output.writeUTF(dtf.format(now) + "\n-Employee Access Menu-\nView Patient Database(v)\nAdd/Change Patient Data(c)\nLogout(o)");//write
                         userInput = input.readUTF();//read
                         steps++;
                     }else{
@@ -287,7 +291,7 @@ public class Server {
     private void ShowBalance() throws IOException{
         for(int i = 0; i < patients.size(); i++){
             if(patients.get(i).getUsername().equals(currentUser.getUsername())){
-                output.writeUTF("Current balance: " + patients.get(i).getBalance());
+                output.writeUTF(dtf.format(now) + "\nCurrent balance: " + patients.get(i).getBalance());
                 steps = 0;
             }
         }
